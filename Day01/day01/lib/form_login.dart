@@ -82,7 +82,7 @@ class _FormLoginState extends State<FormLogin> {
         ),
       );
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const Home()),
+        MaterialPageRoute(builder: (context) => Home(user: user)),
       );
     } else {
       // Đăng nhập thất bại

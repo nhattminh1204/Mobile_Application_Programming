@@ -57,17 +57,25 @@ class MyApp extends StatelessWidget {
 
           // Component Styles
           appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
+            backgroundColor: Color(0xFF1A1D1F), // Dark background
             elevation: 0,
             scrolledUnderElevation: 0,
             centerTitle: false,
-            iconTheme: IconThemeData(color: Color(0xFF1A1D1F)),
+            iconTheme: IconThemeData(color: Colors.white), // White icons
             titleTextStyle: TextStyle(
-              color: Color(0xFF1A1D1F),
+              color: Colors.white, // White text
               fontSize: 18,
               fontWeight: FontWeight.w700,
               letterSpacing: -0.5,
             ),
+          ),
+
+          pageTransitionsTheme: const PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+              TargetPlatform.windows: CupertinoPageTransitionsBuilder(),
+            },
           ),
 
           cardTheme: const CardThemeData(

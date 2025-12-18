@@ -61,50 +61,92 @@ class _TimerPageState extends State<TimerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.timer_sharp),
-        title: Text("Timer", style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: [
-            Text("Number of seconds to count:", style: TextStyle(fontSize: 20)),
-            SizedBox(height: 20),
-            TextField(
-              controller: _controller,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter seconds",
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Color(0xFF1A1D1F)),
+              child: Text(
+                'Menu',
+                style: TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
-            SizedBox(height: 30),
-            Text(
-              _formattedTime,
-              style: TextStyle(
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
-                color: _remainingSeconds == 0 ? Colors.red : Colors.green,
-              ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () => Navigator.pop(context),
             ),
-            SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: _isRunning ? null : _startTimer,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
+          ],
+        ),
+      ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Number of seconds to count:", style: TextStyle(fontSize: 20)),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: _controller,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter seconds",
+                    ),
                   ),
-                  child: Text("Start"),
+                  const SizedBox(height: 30),
+                  Text(
+                    _formattedTime,
+                    style: TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      color: _remainingSeconds == 0 ? Colors.red : Colors.green,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: _isRunning ? null : _startTimer,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text("Start"),
+                      ),
+                      ElevatedButton(onPressed: _resetTimer, child: const Text("Reset")),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            // Custom Navigation Controls
+            Positioned(
+              top: 10,
+              left: 10,
+              child: Builder(
+                builder: (context) => IconButton(
+                  icon: const Icon(Icons.menu, size: 30, color: Colors.black),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
                 ),
-                ElevatedButton(onPressed: _resetTimer, child: Text("Reset")),
-              ],
+              ),
+            ),
+            Positioned(
+              top: 10,
+              right: 10,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, size: 30, color: Colors.black),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
           ],
         ),

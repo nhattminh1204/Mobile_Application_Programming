@@ -56,87 +56,120 @@ class _ReportFormState extends State<ReportForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Gửi phản hồi",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.deepOrangeAccent,
-        foregroundColor: Colors.white,
-        centerTitle: true,
-      ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: [
-            // Họ tên
-            TextField(
-              controller: _fullName,
-              decoration: const InputDecoration(
-                labelText: "Họ tên",
-                prefixIcon: Icon(Icons.person, color: Colors.deepOrangeAccent),
-                border: OutlineInputBorder(),
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Color(0xFF1A1D1F)),
+              child: Text(
+                'Menu',
+                style: TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
-
-            const SizedBox(height: 20),
-
-            // Dropdown chọn sao
-            DropdownButtonFormField<int>(
-              value: _selectedStars,
-              decoration: const InputDecoration(
-                labelText: "Đánh giá (1–5 sao)",
-                prefixIcon: Icon(
-                  Icons.star_rate,
-                  color: Colors.deepOrangeAccent,
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                     const Text(
+                      "Gửi phản hồi",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Color(0xFF1A1D1F)),
+                    ),
+                    const SizedBox(height: 20),
+                    // Họ tên
+                    TextField(
+                      controller: _fullName,
+                      decoration: const InputDecoration(
+                        labelText: "Họ tên",
+                        prefixIcon: Icon(Icons.person, color: Color(0xFF1A1D1F)),
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF1A1D1F), width: 2.0),
+                        ),
+                      ),
+                    ),
+              
+                    const SizedBox(height: 20),
+              
+                    // Dropdown chọn sao
+                    DropdownButtonFormField<int>(
+                      value: _selectedStars,
+                      decoration: const InputDecoration(
+                        labelText: "Đánh giá (1–5 sao)",
+                        prefixIcon: Icon(
+                          Icons.star_rate,
+                          color: Color(0xFF1A1D1F),
+                        ),
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF1A1D1F), width: 2.0),
+                        ),
+                      ),
+                      items: [1, 2, 3, 4, 5].map((value) {
+                        return DropdownMenuItem<int>(
+                          value: value,
+                          child: Text("$value sao"),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() => _selectedStars = value);
+                      },
+                    ),
+              
+                    const SizedBox(height: 20),
+              
+                    // Nội dung góp ý
+                    TextField(
+                      controller: _report,
+                      maxLines: 4,
+                      decoration: const InputDecoration(
+                        labelText: "Nội dung góp ý",
+                        prefixIcon: Icon(
+                          Icons.feedback,
+                          color: Color(0xFF1A1D1F),
+                        ),
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF1A1D1F), width: 2.0),
+                        ),
+                      ),
+                    ),
+              
+                    const SizedBox(height: 20),
+              
+                    // Nút gửi
+                    ElevatedButton.icon(
+                      onPressed: _sendReport,
+                      icon: const Icon(Icons.send),
+                      label: const Text("Gửi phản hồi"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1A1D1F),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                border: OutlineInputBorder(),
-              ),
-              items: [1, 2, 3, 4, 5].map((value) {
-                return DropdownMenuItem<int>(
-                  value: value,
-                  child: Text("$value sao"),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() => _selectedStars = value);
-              },
-            ),
-
-            const SizedBox(height: 20),
-
-            // Nội dung góp ý
-            TextField(
-              controller: _report,
-              maxLines: 4,
-              decoration: const InputDecoration(
-                labelText: "Nội dung góp ý",
-                prefixIcon: Icon(
-                  Icons.feedback,
-                  color: Colors.deepOrangeAccent,
-                ),
-                border: OutlineInputBorder(),
               ),
             ),
-
-            const SizedBox(height: 20),
-
-            // Nút gửi
-            ElevatedButton.icon(
-              onPressed: _sendReport,
-              icon: const Icon(Icons.send),
-              label: const Text("Gửi phản hồi"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepOrangeAccent,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 12,
-                ),
-              ),
-            ),
+             // Navigation Controls
+            // Navigation Controls removed
           ],
         ),
       ),

@@ -5,61 +5,112 @@ class MyClassroom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: myBody());
+    return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Color(0xFF1A1D1F)),
+              child: Text(
+                'Menu',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      ),
+      body: myBody(context)
+    );
   }
 
-  Widget myBody() {
-    var tenHocPhan;
-    var maHocPhan;
-    var soHocVien;
+  Widget myBody(BuildContext context) {
     // Đưa myBody vào SafeArea để tránh bị che bởi thanh trạng thái
     return SafeArea(
-      child: ListView(
-        scrollDirection: Axis.vertical,
-        children: List.generate(10, (index) => item()),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 0),
+            child: ListView(
+              scrollDirection: Axis.vertical,
+              padding: const EdgeInsets.all(16),
+              children: List.generate(10, (index) => item(index)),
+            ),
+          ),
+          // Navigation Controls
+          // Navigation Controls removed
+        ],
       ),
     );
   }
 
-  Widget item() {
-    return Container(
-      height: 100,
-      margin: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black),
-        borderRadius: BorderRadius.circular(12),
-        color: const Color.fromARGB(255, 80, 77, 77),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
+  Widget item(int index) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      clipBehavior: Clip.antiAlias,
+      child: Container(
+        height: 120,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage('https://picsum.photos/seed/${index + 1}/400/200'),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.6), 
+              BlendMode.darken
+            ),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "XML và ứng dụng - Nhóm 1",
-                    style: TextStyle(color: Colors.white),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "XML và ứng dụng - Nhóm 1",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "2025-2026.1.TIN4583.001",
+                        style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 12),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "2025-2026.1.TIN4583.001",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  Row(
+                    children: [
+                      const Icon(Icons.people, color: Colors.white, size: 16),
+                      const SizedBox(width: 4),
+                      Text("58 học viên", style: TextStyle(color: Colors.white)),
+                    ],
+                  )
                 ],
               ),
-              Text("58 học viên", style: TextStyle(color: Colors.white)),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.more_horiz, color: Colors.white),
+              ),
             ],
           ),
-          IconButton(
-            onPressed: () => {},
-            icon: Icon(Icons.more_horiz, color: Colors.white),
-          ),
-        ],
+        ),
       ),
     );
   }

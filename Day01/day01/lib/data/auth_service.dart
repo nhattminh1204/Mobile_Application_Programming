@@ -125,4 +125,26 @@ class AuthService {
       return false;
     }
   }
+  // Xóa tài khoản (chỉ dành cho Admin)
+  Future<bool> deleteUser(String username) async {
+    try {
+      if (username == 'admin') return false; // Không cho phép xóa admin gốc
+
+      Map<String, dynamic> data = await _getData();
+      List<dynamic> users = data['users'];
+
+      int lengthBefore = users.length;
+      users.removeWhere((u) => u['username'] == username);
+
+      if (users.length < lengthBefore) {
+        data['users'] = users;
+        await _saveData(data);
+        print("✅ User deleted: $username");
+        return true;
+      }
+    } catch (e) {
+      print("❌ Error deleting user: $e");
+    }
+    return false;
+  }
 }
